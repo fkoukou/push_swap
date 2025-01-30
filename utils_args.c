@@ -6,61 +6,81 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:42:33 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/01/17 21:46:34 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:18:17 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+void	inset_to_stack(t_node **stack_a, char **args)
+{
+	t_node	*node;
+	int		i;
 
-insert_stack(t_node **stack_a, char **argss)
-{
-    t_node *new_node;
-    int i;
-    i = 0;
-    while (argss[i])
-    {
-        new_node =create_node(ft_atoi(argss[i]));
-        add_node(stack_a,new_node);
-        i++;
-    }
+	i = 0;
+	while (args[i])
+	{
+		node = create_node(ft_atoi(args[i]));
+		add_node_to_stack(stack_a, node);
+		i++;
+	}
 }
-void fonction_free(char **argss)
+
+int	is_valid(char *args)
 {
-    int i;
-    i = 0;
-    while(argss[i])
-    {
-        free(argss[i]);
-        i++;
-    }
+	int	i;
+
+	i = 0;
+	if (args[i] == '-' || args[i] == '+')
+		i++;
+	if (args[i] == '\0')
+		return (0);
+	while (args[i])
+	{
+		if (ft_isdigit(args[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
 }
-int valide_args(t_node **stack_a, char **argv)
+
+void	ft_free(char **args)
 {
-    char **argss;
-    int i;
-    int j;
-    
-    j = 0;
-    i = 1;
-    while (argv[i])
-    {
-        argss = ft_split(argv[i], ' ');
-        if(!argss[0])
-           return(fonction_free(argss) ,0);
-        
-        while (argss[j])
-        {
-            if(ft_isdigit(argss[j]) == 0)
-                return(fonction_free(argss), 0);
-            if(ft_atoi(argss[j] < INT_MIN || ft_atoi(argss[j]) > INT_MAX))
-                return(fonction_free(argss), 0);
-            j++;
-        }
-        insert_stack(stack_a, argss);
-        fonction_free(argss);
-        i++;
-    }
-    return(1);
-    
+	int	i;
+
+	i = 0;
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
+}
+
+int	valide_args(t_node **stack_a, char **argv)
+{
+	char	**s_args;
+	int		i;
+	int		j;
+
+	i = 1;
+	while (argv[i])
+	{
+		s_args = ft_split(argv[i], ' ');
+		if (!s_args[0])
+			return (ft_free(s_args), 0);
+		j = 0;
+		while (s_args[j])
+		{
+			if (is_valid(s_args[j]) == 0)
+				return (ft_free(s_args), 0);
+			if (ft_atoi(s_args[j]) < INT_MIN || ft_atoi(s_args[j]) > INT_MAX)
+				return (ft_free(s_args), 0);
+			j++;
+		}
+		inset_to_stack(stack_a, s_args);
+		ft_free(s_args);
+		i++;
+	}
+	return (1);
 }

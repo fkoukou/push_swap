@@ -6,66 +6,71 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 08:55:43 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/01/18 16:59:51 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:10:54 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"push_swap.h"
-
-void sort_stack(t_node **stack_a, t_node **stack_b, size_t size)
+int	check_sorted(t_node *stack_a)
 {
-   if (size == 2)
-		sort2(stack_a);
-	else if (size == 3)
-		sort3(stack_a);
-	else if (size == 4)
-		sort4(stack_a, stack_b);
-	else if (size == 5)
-		sort5(stack_a, stack_b);
-	else
-		sort_stack_final(stack_a, stack_b, size);
-    
-}
-void sort_stack_final(t_node **stack_a, t_node **stack_b, int size)
-{
-    int	*array;
+	t_node	*current;
 
-	array = malloc(sizeof(int) * size);
-	if (!array)
-		return ;
-	array = fill_array(*stack_a, array, size);
-	sort_array(array, size);
-	indexing(stack_a, array, size);
-	if (size < 250)
-		push_to_b(stack_a, stack_b, 15);
-	else
-		push_to_b(stack_a, stack_b, 40);
-	free(array);
+	current = stack_a;
+	while (current != NULL && current->next != NULL)
+	{
+		if ((current->value) > (current->next)->value)
+			return (0);
+		current = current->next;
+	}
+	return (1);
 }
 
-
-int sorted_stack_a(t_node *stack_a)
+int	stack_size(t_node *stack_a)
 {
-    t_node *cc;
-    cc = stack_a;
-    while(cc != NULL && cc->next != NULL)
-    {
-        if((cc->next) > (cc->next)->value)
-            return 0;
-        cc = cc->next;
-    }
-    return 1;
+	t_node	*node;
+	int		i;
+
+	node = stack_a;
+	i = 0;
+	while (node != NULL)
+	{
+		i++;
+		node = node->next;
+	}
+
+	return (i);
 }
-int stack_size(t_node *stack)
-{
-    t_node *node;
-    int i;
 
-    i = 0;
-    while(node != NULL)
-    {
-        i++;
-        node = node->next;
-    }
-    return (i);
+int	get_index_pos(t_node **stack_a, int ic)
+{
+	int		i;
+	t_node	*stack;
+
+	stack = *stack_a;
+	i = 0;
+	while (i < stack_size(*stack_a))
+	{
+		if (stack->index < ic)
+			break ;
+		stack = stack->next;
+		i++;
+	}
+	return (i);
+}
+
+int	get_max_pos(t_node *stack, int v)
+{
+	t_node	*node;
+	int		i;
+
+	node = stack;
+	i = 0;
+	while (node)
+	{
+		if (node->value == v)
+			break ;
+		node = node->next;
+		i++;
+	}
+	return (i);
 }

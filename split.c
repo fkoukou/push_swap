@@ -6,11 +6,30 @@
 /*   By: fakoukou <fakoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:50:01 by fakoukou          #+#    #+#             */
-/*   Updated: 2025/01/17 18:50:26 by fakoukou         ###   ########.fr       */
+/*   Updated: 2025/01/25 15:52:11 by fakoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"push_swap.h"
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	size_t	i;
+	char	*dest1;
+	char	*src1;
+
+	dest1 = (char *)dest;
+	src1 = (char *)src;
+	if (!dest1 && !src1)
+		return (NULL);
+	i = 0;
+	while (i < n)
+	{
+		dest1[i] = src1[i];
+		i++;
+	}
+	return (dest);
+}
+
 static int	ft_count(const char *s, char c)
 {
 	int	count;
